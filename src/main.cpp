@@ -1,17 +1,22 @@
 #include <string>
 #include <iostream>
 
-/**
- *This file houses the back tracking algorithm to 
- *sort and creat a new sudoku board
- *
- *@author Nabeel Vali
- */
+/**********************************************************************************
+ *This file houses the back tracking algorithm to sort and creat a new sudoku board
+ *@version Winter 2018
+ *@author Nabeel Vali, Runquan Ye
+ *********************************************************************************/
 
 bool isFinished(int board[9][9]);
 void printBoard(int board[9][9]);
 void solveBoard(int board[9][9]);
+boolean checkSquare(int board[9][9]);
+boolean checkRow(int board[9][9]);
+boolean checkColumn(int board[9][9]);
+void backtracking (int board[9][9]);
+
 std::string findEmptyLocation(int board[9][9]);
+
 
 int main(int argc, char ** argv){
 
@@ -26,9 +31,15 @@ int main(int argc, char ** argv){
                    	 { 0, 7, 0, 0, 0, 0, 0, 3, 0 }};
 
 
+	backtracking(board);
+
+}
+
+void backtracking (int board[9][9]){
+
 
 	if(isFinished(board)) {
-		//printBoard(board);
+		printBoard(bqoard);
 	} else {
 		solveBoard(board);
 	}
@@ -37,6 +48,46 @@ int main(int argc, char ** argv){
 }
 
 
+boolean checkSquare(int board[9][9]){
+	int temp [9];
+	for (int i = 0; i < 9; i = i + 3){
+		for(int j = 0; j < 9; j = j + 3){
+			temp [9] = {board[i][j], board[i][j+ 1]};
+				}
+			}
+		}
+	}
+	return true;
+}
+
+
+boolean checkColumn(int board[9][9]){
+	for (int i = 0; i <= 9; i++){
+		for(int j = 0; j <= 9; j++){
+			for(int k = j + 1; k <= 9; k++){
+				if(board[j][i] == board[k][i]){
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
+
+
+boolean checkRow(int board[9][9]){
+	for (int i = 0; i <= 9; i++){
+		for(int j = 0; j <= 9; j++){
+			for(int k = j + 1; k <= 9; k++){
+				if(board[i][j] == board[i][k]){
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
 
 
 void solveBoard(int board[9][9]){

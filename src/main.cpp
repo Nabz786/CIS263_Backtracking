@@ -1,6 +1,6 @@
 #include <string>
 #include <iostream>
-
+#include <vector>
 /**********************************************************************************
  *This file houses the back tracking algorithm to sort and creat a new sudoku board
  *@version Winter 2018
@@ -9,13 +9,13 @@
 
 bool isFinished(int board[9][9]);
 void printBoard(int board[9][9]);
-void solveBoard(int board[9][9]);
-boolean checkSquare(int board[9][9]);
-boolean checkRow(int board[9][9]);
-boolean checkColumn(int board[9][9]);
+bool solveBoard(int board[9][9]);
+bool checkSquare(int board[9][9], int row, int col, int value);
+bool checkRow(int board[9][9], int row,  int value);
+bool checkColumn(int board[9][9], int col, int value);
+bool isValidOption(int board[9][9], int row, int col, int value);
 void backtracking (int board[9][9]);
-
-std::string findEmptyLocation(int board[9][9]);
+std::vector<int> findEmptyLocation(int board[9][9]);
 
 
 int main(int argc, char ** argv){
@@ -32,79 +32,84 @@ int main(int argc, char ** argv){
 
 
 	backtracking(board);
-
 }
 
 void backtracking (int board[9][9]){
 
 
 	if(isFinished(board)) {
-		printBoard(bqoard);
+//		printBoard(board);
 	} else {
 		solveBoard(board);
 	}
+}
 
+bool checkSquare(int board[9][9], int row, int col, int value){
+//	int temp [9];
+//	for (int i = 0; i < 9; i = i + 3){
+//		for(int j = 0; j < 9; j = j + 3){
+//		//	temp [9] == {board[i][j], board[i][j+ 1]};
+//		}
+//	}
+//	
+//	return true;
+
+//Need to finish this method, try to find a way using the parameters that get passed in	
 
 }
 
 
-boolean checkSquare(int board[9][9]){
-	int temp [9];
-	for (int i = 0; i < 9; i = i + 3){
-		for(int j = 0; j < 9; j = j + 3){
-			temp [9] = {board[i][j], board[i][j+ 1]};
-				}
-			}
+bool checkColumn(int board[9][9], int col, int value){
+
+	for(int i = 1; i <=9; i++) {
+		if (board[i][col] == value) {
+			return false;
 		}
 	}
 	return true;
 }
 
 
-boolean checkColumn(int board[9][9]){
-	for (int i = 0; i <= 9; i++){
-		for(int j = 0; j <= 9; j++){
-			for(int k = j + 1; k <= 9; k++){
-				if(board[j][i] == board[k][i]){
-					return false;
-				}
-			}
+
+bool checkRow(int board[9][9], int row, int value){
+
+	for(int i = 1; i <= 9; i++) {
+		if(board[row][i] == value) {
+			return false;
 		}
 	}
 	return true;
 }
 
 
-
-boolean checkRow(int board[9][9]){
-	for (int i = 0; i <= 9; i++){
-		for(int j = 0; j <= 9; j++){
-			for(int k = j + 1; k <= 9; k++){
-				if(board[i][j] == board[i][k]){
-					return false;
-				}
-			}
-		}
-	}
-	return true;
-}
-
-
-void solveBoard(int board[9][9]){
+bool solveBoard(int board[9][9]){
 
 	if(isFinished(board)) {
 	//	printBoard(board);
 	} else {
-		std::string emptyLocation = findEmptyLocation(board);
-		//std::cout << emptyLocation.at(0) << std::endl;
-		//std::cout << emptyLocation.at(1) << std::endl;
-		char r = emptyLocation.at(0);
-		char c = emptyLocation.at(1);
-		int row = r - '0';
-		int col = c - '0';
-		std::cout << row + " " + col << std::endl;
-	}
+		std::vector<int> emptyLocation = findEmptyLocation(board);
+		int eRow = emptyLocation.at(0);
+		int eCol = emptyLocation.at(1);	
+		emptyLocation.clear();		
 
+		for(int i = 1; i <= 9; i++){		
+			if(isValidOption(board, eRow, eCol, i)) {
+				board[eRow][eCol] = i;
+				
+				if(solveBoard(board)) {
+					return true;
+				} else {
+					board[eRow][eCol] = 0;
+				}
+			}
+		}
+		return false;
+	}
+}
+
+bool isValidOption(int board[9][9], int row, int col, int value) {
+	return (checkRow(board, row, value) && checkColumn(board, col, value) && 
+		checkSquare(board, row, col, value));
 }
 
 bool isFinished(int board[9][9]) {
@@ -119,16 +124,15 @@ bool isFinished(int board[9][9]) {
 	return true;
 }
 
-std::string findEmptyLocation(int board[9][9]) {
+std::vector<int> findEmptyLocation(int board[9][9]) {
+
+	std::vector<int> emptyLocation;	
 		
-	std::string emptyLocation = "";
-	
 	for(int row = 0; row < 9; row++) {
 		for(int col = 0; col < 9; col++) {
 			if(board[row][col] == 0) {
-				emptyLocation = std::to_string(row) 
-				+ std::to_string(col);
-				//std::cout << "empty cell" + emptyLocation << std::endl;
+				emptyLocation.push_back(row);
+				emptyLocation.push_back(col);
 				return emptyLocation;
 			}
 		}

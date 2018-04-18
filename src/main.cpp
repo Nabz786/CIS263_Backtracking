@@ -14,6 +14,7 @@ bool checkSquare(int board[9][9], int row, int col, int value);
 bool checkRow(int board[9][9], int row,  int value);
 bool checkColumn(int board[9][9], int col, int value);
 bool isValidOption(int board[9][9], int row, int col, int value);
+bool checkThreeBox(int board[9][9], int row, int col, int value);
 void backtracking (int board[9][9]);
 std::vector<int> findEmptyLocation(int board[9][9]);
 
@@ -38,28 +39,27 @@ void backtracking (int board[9][9]){
 
 
 	if(isFinished(board)) {
-//		printBoard(board);
+		printBoard(board);
 	} else {
 		solveBoard(board);
 	}
 }
 
-bool checkSquare(int board[9][9], int value){
-int temp [9];
-	for (int i = 0; i < 9; i = i + 3){
-		for(int j = 0; j < 9; j = j + 3){
-			temp [9] = {board[i][j], board[i][j+ 1], board[i][j + 2], board[i + 1][j], board[i + 1][j + 1], board[i + 1][j + 2], board[i + 2][j], board[i + 2][j + 1], board[i + 2][j + 2]};
-			for(int g = 0; g <= sizeof(temp) - 2; g++){
-				if(temp[g] == value){
-					return false;
-				} 
-			}
-		}
-	}
-		
-
-	return true;
-}
+//bool checkSquare(int board[9][9], int value){
+//int temp[9];
+//	for (int i = 0; i < 9; i = i + 3){
+//		for(int j = 0; j < 9; j = j + 3){
+//			temp= {board[i][j], board[i][j+ 1], board[i][j + 2], board[i + 1][j], board[i + 1][j + 1], board[i + 1][j + 2], board[i + 2][j], board[i + 2][j + 1], board[i + 2][j + 2]};
+//			for(int g = 0; g <= sizeof(temp) - 2; g++){
+//				if(temp[g] == value){
+//					return false;
+//				} 
+//			}
+//		}
+//	}
+//		
+//	return true;
+//}
 
 bool checkColumn(int board[9][9], int col, int value){
 
@@ -87,18 +87,23 @@ bool checkRow(int board[9][9], int row, int value){
 bool solveBoard(int board[9][9]){
 
 	if(isFinished(board)) {
-	//	printBoard(board);
+		printBoard(board);
+		std::cout << "Finished" << std::endl;
 	} else {
-		std::vector<int> emptyLocation = findEmptyLocation(board);
-		int eRow = emptyLocation.at(0);
-		int eCol = emptyLocation.at(1);	
-		emptyLocation.clear();		
-
+		printBoard(board);
+//		std::cout << "here" << std::endl;
+	//	std::cout << findEmptyLocation(board).at(0) << std::endl;
+		int eRow = findEmptyLocation(board).at(0);
+		int eCol = findEmptyLocation(board).at(1);
+//		std::cout << eRow << std::endl;	
+//		std::cout << findEmptyLocation(board).at(0) << std::endl;
+//		std::cout << findEmptyLocation(board).at(1) << std::endl;
 		for(int i = 1; i <= 9; i++){		
 			if(isValidOption(board, eRow, eCol, i)) {
 				board[eRow][eCol] = i;
 				
 				if(solveBoard(board)) {
+					std::cout << "here" << std::endl;
 					return true;
 				} else {
 					board[eRow][eCol] = 0;
@@ -111,7 +116,7 @@ bool solveBoard(int board[9][9]){
 
 bool isValidOption(int board[9][9], int row, int col, int value) {
 	return (checkRow(board, row, value) && checkColumn(board, col, value) && 
-		checkSquare(board, row, col, value));
+		checkThreeBox(board, row, col, value));
 }
 
 bool isFinished(int board[9][9]) {
@@ -133,6 +138,9 @@ std::vector<int> findEmptyLocation(int board[9][9]) {
 	for(int row = 0; row < 9; row++) {
 		for(int col = 0; col < 9; col++) {
 			if(board[row][col] == 0) {
+		//		std::cout << "herenow" << std::endl;
+		//		std::cout << row  << std::endl;
+		//		std::cout << col << std::endl;
 				emptyLocation.push_back(row);
 				emptyLocation.push_back(col);
 				return emptyLocation;
@@ -141,4 +149,53 @@ std::vector<int> findEmptyLocation(int board[9][9]) {
 	}
 }
 
+void printBoard(int board[9][9]) {
+
+	for (int row = 0; row <= 9; row++) {
+		for(int col = 0; col <= 9; col++ ) {
+			std::cout << board[row][col] << "   ";
+			std::cout << std::endl;
+		}
+
+
+	}	
+	std::cout << std::endl;
+}
+
+bool checkThreeBox(int board[9][9], int row, int col, int value) {
+
+	int minRow, maxRow;
+	int minCol, maxCol;
+
+	if(row == 1 || row == 2 || row == 3) {
+		minRow = 1;
+		maxRow = 3;
+	} else if (row == 4 || row == 5 || row == 6) {
+		minRow = 4;
+		maxRow = 6;
+	} else {
+		minRow = 7;
+		maxRow = 9;
+	}
+
+	if(col == 1 || col == 2 || col == 3) {
+		minCol = 1;
+		maxCol = 3;
+	} else if (col == 4 || col == 5 || col == 6) {
+		minCol = 4;
+		maxCol = 6;
+	} else {
+		minCol = 7;
+		maxCol = 9;
+	}
+
+	for(int row = minRow; row <= maxRow; row++) {
+		for(int col = minCol; col <= maxCol; col++) {
+			if(board[row][col] == value) {
+				return false;
+			}
+		}
+	}
+	return true;
+}
 

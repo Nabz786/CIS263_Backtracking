@@ -44,20 +44,22 @@ void backtracking (int board[9][9]){
 	}
 }
 
-bool checkSquare(int board[9][9], int row, int col, int value){
-//	int temp [9];
-//	for (int i = 0; i < 9; i = i + 3){
-//		for(int j = 0; j < 9; j = j + 3){
-//		//	temp [9] == {board[i][j], board[i][j+ 1]};
-//		}
-//	}
-//	
-//	return true;
+bool checkSquare(int board[9][9], int value){
+int temp [9];
+	for (int i = 0; i < 9; i = i + 3){
+		for(int j = 0; j < 9; j = j + 3){
+			temp [9] = {board[i][j], board[i][j+ 1], board[i][j + 2], board[i + 1][j], board[i + 1][j + 1], board[i + 1][j + 2], board[i + 2][j], board[i + 2][j + 1], board[i + 2][j + 2]};
+			for(int g = 0; g <= sizeof(temp) - 2; g++){
+				if(temp[g] == value){
+					return false;
+				} 
+			}
+		}
+	}
+		
 
-//Need to finish this method, try to find a way using the parameters that get passed in	
-
+	return true;
 }
-
 
 bool checkColumn(int board[9][9], int col, int value){
 

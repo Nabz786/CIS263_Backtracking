@@ -152,10 +152,9 @@ void printBoard(int board[9][9]) {
 	for (int row = 0; row <= 9; row++) {
 		for(int col = 0; col <= 9; col++ ) {
 			std::cout << board[row][col] << "   ";
-			std::cout << std::endl;
 		}
 
-
+	std::cout << std::endl;
 	}	
 	std::cout << std::endl;
 }

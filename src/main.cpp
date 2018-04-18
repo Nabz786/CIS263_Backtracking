@@ -14,7 +14,7 @@ bool checkSquare(int board[9][9], int row, int col, int value);
 bool checkRow(int board[9][9], int row,  int value);
 bool checkColumn(int board[9][9], int col, int value);
 bool isValidOption(int board[9][9], int row, int col, int value);
-bool checkThreeBox(int board[9][9], int row, int col, int value);
+//bool checkThreeBox(int board[9][9], int row, int col, int value);
 void backtracking (int board[9][9]);
 std::vector<int> findEmptyLocation(int board[9][9]);
 
@@ -45,21 +45,19 @@ void backtracking (int board[9][9]){
 	}
 }
 
-//bool checkSquare(int board[9][9], int value){
-//int temp[9];
-//	for (int i = 0; i < 9; i = i + 3){
-//		for(int j = 0; j < 9; j = j + 3){
-//			temp= {board[i][j], board[i][j+ 1], board[i][j + 2], board[i + 1][j], board[i + 1][j + 1], board[i + 1][j + 2], board[i + 2][j], board[i + 2][j + 1], board[i + 2][j + 2]};
-//			for(int g = 0; g <= sizeof(temp) - 2; g++){
-//				if(temp[g] == value){
-//					return false;
-//				} 
-//			}
-//		}
-//	}
-//		
-//	return true;
-//}
+bool checkSquare(int board[9][9], int row, int col, int value){
+int temp[9];
+	for (int i = (row/3); i < (i + 3); i++){
+		for (int j = (col/3); j < (j + 3); j++){
+			if(board[i][j] == value){
+					return false;
+				} 
+			}
+		}
+	}
+		
+	return true;
+}
 
 bool checkColumn(int board[9][9], int col, int value){
 
@@ -116,7 +114,7 @@ bool solveBoard(int board[9][9]){
 
 bool isValidOption(int board[9][9], int row, int col, int value) {
 	return (checkRow(board, row, value) && checkColumn(board, col, value) && 
-		checkThreeBox(board, row, col, value));
+		checkSquare(board, row, col, value));
 }
 
 bool isFinished(int board[9][9]) {
@@ -162,40 +160,40 @@ void printBoard(int board[9][9]) {
 	std::cout << std::endl;
 }
 
-bool checkThreeBox(int board[9][9], int row, int col, int value) {
-
-	int minRow, maxRow;
-	int minCol, maxCol;
-
-	if(row == 1 || row == 2 || row == 3) {
-		minRow = 1;
-		maxRow = 3;
-	} else if (row == 4 || row == 5 || row == 6) {
-		minRow = 4;
-		maxRow = 6;
-	} else {
-		minRow = 7;
-		maxRow = 9;
-	}
-
-	if(col == 1 || col == 2 || col == 3) {
-		minCol = 1;
-		maxCol = 3;
-	} else if (col == 4 || col == 5 || col == 6) {
-		minCol = 4;
-		maxCol = 6;
-	} else {
-		minCol = 7;
-		maxCol = 9;
-	}
-
-	for(int row = minRow; row <= maxRow; row++) {
-		for(int col = minCol; col <= maxCol; col++) {
-			if(board[row][col] == value) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
+//bool checkThreeBox(int board[9][9], int row, int col, int value) {
+//
+//	int minRow, maxRow;
+//	int minCol, maxCol;
+//
+//	if(row == 1 || row == 2 || row == 3) {
+//		minRow = 1;
+//		maxRow = 3;
+//	} else if (row == 4 || row == 5 || row == 6) {
+//		minRow = 4;
+//		maxRow = 6;
+//	} else {
+//		minRow = 7;
+//		maxRow = 9;
+//	}
+//
+//	if(col == 1 || col == 2 || col == 3) {
+//		minCol = 1;
+//		maxCol = 3;
+//	} else if (col == 4 || col == 5 || col == 6) {
+//		minCol = 4;
+//		maxCol = 6;
+//	} else {
+//		minCol = 7;
+//		maxCol = 9;
+//	}
+//
+//	for(int row = minRow; row <= maxRow; row++) {
+//		for(int col = minCol; col <= maxCol; col++) {
+//			if(board[row][col] == value) {
+//				return false;
+//			}
+//		}
+//	}
+//	return true;
+//}
 

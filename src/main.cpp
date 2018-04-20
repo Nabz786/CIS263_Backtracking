@@ -16,10 +16,12 @@ bool checkColumn(int board[9][9], int col, int value);
 bool isValidOption(int board[9][9], int row, int col, int value);
 bool checkThreeBox(int board[9][9], int row, int col, int value);
 
-//bool checkThreeBox(int board[9][9], int row, int col, int value);
+
 void backtracking (int board[9][9]);
 
-
+/**********************************************************************************
+ * The main method start the programe
+ **********************************************************************************/
 int main(int argc, char ** argv){
 
 	int board[9][9] ={{ 0, 3, 0, 0, 0, 0, 0, 2, 0 },
@@ -49,6 +51,12 @@ int main(int argc, char ** argv){
 //	return true;
 //}
 
+*/*********************************************************************************
+ * The method to check each column for duplicate number.
+ * @param: int[][], board, the 2D array board 
+ * @param: int, col, the number of column
+ * @param: int, value, the value the method going to check is there has a duplicate
+ **********************************************************************************/
 bool checkColumn(int board[9][9], int col, int value){
 
 	for(int i = 0; i <9; i++) {
@@ -60,7 +68,12 @@ bool checkColumn(int board[9][9], int col, int value){
 }
 
 
-
+*/*********************************************************************************
+ * The method to check each row for duplicate number.
+ * @param: int[][], board, the 2D array board 
+ * @param: int, row, the number of row
+ * @param: int, value, the value the method going to check is there has a duplicate
+ **********************************************************************************/
 bool checkRow(int board[9][9], int row, int value){
 
 	for(int i = 0; i < 9; i++) {
@@ -72,8 +85,11 @@ bool checkRow(int board[9][9], int row, int value){
 }
 
 
+*/*********************************************************************************
+ * The method to solve the game board by using the backtracking contect.
+ * @param: int[][], board, the 2D array board 
+ **********************************************************************************/
 bool solveBoard(int board[9][9]){
-//	printBoard(board);
 	
 	if(isFinished(board)) {
 		printBoard(board);
@@ -101,16 +117,28 @@ bool solveBoard(int board[9][9]){
 				}
 			}
 		}
-//		std::cout << "here12231" << std::endl;
 		return false;
 	}
 }
 
+
+*/*********************************************************************************
+ * This method to check is the insert number vaild to the position
+ * @param: int[][], board, the 2D array board 
+ * @param: int, row, the number of row
+ * @param: int, col, the number of column
+ * @param: int, value, the value the method going to check is there has a duplicate
+ **********************************************************************************/
 bool isValidOption(int board[9][9], int row, int col, int value) {
 	return (checkRow(board, row, value) && checkColumn(board, col, value) && 
 		checkThreeBox(board, row, col, value));
 }
 
+
+*/*********************************************************************************
+ * The method to solve the game board by using the backtracking contect.
+ * @param: int[][], board, the 2D array board 
+ **********************************************************************************/
 bool isFinished(int board[9][9]) {
 	for(int row = 0; row < 9; row++){
 		for(int col = 0; col < 9; col++){
@@ -122,6 +150,10 @@ bool isFinished(int board[9][9]) {
 	return true;
 }
 
+*/*********************************************************************************
+ * The method to print out the game board.
+ * @param: int[][], board, the 2D array board 
+ **********************************************************************************/
 void printBoard(int board[9][9]) {
 
 
@@ -136,6 +168,14 @@ void printBoard(int board[9][9]) {
 	std::cout << std::endl;
 }
 
+
+*/*********************************************************************************
+ * This method to check is there has dupilicate number in the each 3x3 square
+ * @param: int[][], board, the 2D array board 
+ * @param: int, row, the number of row
+ * @param: int, col, the number of column
+ * @param: int, value, the value the method going to check is there has a duplicate
+ **********************************************************************************/
 bool checkThreeBox(int board[9][9], int row, int col, int value) {
 
 	int minRow, maxRow;

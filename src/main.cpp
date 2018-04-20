@@ -51,7 +51,7 @@ int main(int argc, char ** argv){
 //	return true;
 //}
 
-*/*********************************************************************************
+/*********************************************************************************
  * The method to check each column for duplicate number.
  * @param: int[][], board, the 2D array board 
  * @param: int, col, the number of column
@@ -68,7 +68,7 @@ bool checkColumn(int board[9][9], int col, int value){
 }
 
 
-*/*********************************************************************************
+/*********************************************************************************
  * The method to check each row for duplicate number.
  * @param: int[][], board, the 2D array board 
  * @param: int, row, the number of row
@@ -85,7 +85,7 @@ bool checkRow(int board[9][9], int row, int value){
 }
 
 
-*/*********************************************************************************
+/*********************************************************************************
  * The method to solve the game board by using the backtracking contect.
  * @param: int[][], board, the 2D array board 
  **********************************************************************************/
@@ -122,7 +122,7 @@ bool solveBoard(int board[9][9]){
 }
 
 
-*/*********************************************************************************
+/*********************************************************************************
  * This method to check is the insert number vaild to the position
  * @param: int[][], board, the 2D array board 
  * @param: int, row, the number of row
@@ -135,7 +135,7 @@ bool isValidOption(int board[9][9], int row, int col, int value) {
 }
 
 
-*/*********************************************************************************
+/*********************************************************************************
  * The method to solve the game board by using the backtracking contect.
  * @param: int[][], board, the 2D array board 
  **********************************************************************************/
@@ -150,7 +150,7 @@ bool isFinished(int board[9][9]) {
 	return true;
 }
 
-*/*********************************************************************************
+/*********************************************************************************
  * The method to print out the game board.
  * @param: int[][], board, the 2D array board 
  **********************************************************************************/
@@ -169,7 +169,7 @@ void printBoard(int board[9][9]) {
 }
 
 
-*/*********************************************************************************
+/*********************************************************************************
  * This method to check is there has dupilicate number in the each 3x3 square
  * @param: int[][], board, the 2D array board 
  * @param: int, row, the number of row

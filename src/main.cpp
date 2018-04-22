@@ -2,7 +2,8 @@
 #include <iostream>
 #include <vector>
 /**********************************************************************************
- *This file houses the back tracking algorithm to sort and creat a new sudoku board
+ *This file houses the back tracking algorithm to sort and create a new sudoku
+ *board with given data.
  *@version Winter 2018
  *@author Nabeel Vali, Runquan Ye
  *********************************************************************************/
@@ -10,17 +11,16 @@
 bool isFinished(int board[9][9]);
 void printBoard(int board[9][9]);
 bool solveBoard(int board[9][9]);
-bool checkSquare(int board[9][9], int row, int col, int value);
 bool checkRow(int board[9][9], int row,  int value);
 bool checkColumn(int board[9][9], int col, int value);
 bool isValidOption(int board[9][9], int row, int col, int value);
 bool checkThreeBox(int board[9][9], int row, int col, int value);
-
-
+void setEmptyCell(int board[9][9], int row, int col);
 void backtracking (int board[9][9]);
 
 /**********************************************************************************
- * The main method start the programe
+ * The main method initiates the program by inputting the partially filled board
+ * then initiates the backtracking algorithm.
  **********************************************************************************/
 int main(int argc, char ** argv){
 
@@ -37,25 +37,12 @@ int main(int argc, char ** argv){
 	solveBoard(board);
 }
 
-//bool checkSquare(int board[9][9], int row, int col, int value){
-//int temp[9];
-//	for (int i = (row/3); i < (i + 3); i++){
-//		for (int j = (col/3); j < (j + 3); j++){
-//			if(board[i][j] == value){
-//					return false;
-//				} 
-//			}
-//		}
-//	}
-//		
-//	return true;
-//}
-
 /*********************************************************************************
- * The method to check each column for duplicate number.
+ * The method checks each column for a duplicate value.
  * @param: int[][], board, the 2D array board 
  * @param: int, col, the number of column
- * @param: int, value, the value the method going to check is there has a duplicate
+ * @param: int, value, the value we will check for duplicates of
+ * @returns: bool, true if no match was found, false if there was a duplicate value
  **********************************************************************************/
 bool checkColumn(int board[9][9], int col, int value){
 
@@ -67,12 +54,12 @@ bool checkColumn(int board[9][9], int col, int value){
 	return true;
 }
 
-
 /*********************************************************************************
- * The method to check each row for duplicate number.
+ * The method checks each row for a duplicate value.
  * @param: int[][], board, the 2D array board 
- * @param: int, row, the number of row
- * @param: int, value, the value the method going to check is there has a duplicate
+ * @param: int, row, the row to check
+ * @param: int, value, the value we will check for duplictes of
+ * @returns: bool, true if no match was found, false if there was a duplicate value 
  **********************************************************************************/
 bool checkRow(int board[9][9], int row, int value){
 
@@ -84,10 +71,10 @@ bool checkRow(int board[9][9], int row, int value){
 	return true;
 }
 
-
 /*********************************************************************************
- * The method to solve the game board by using the backtracking contect.
+ * This method aims to fill in the rest of the board using backtracking
  * @param: int[][], board, the 2D array board 
+ * @returns: bool, true if the board was solved, false if the board is unsolved
  **********************************************************************************/
 bool solveBoard(int board[9][9]){
 	
@@ -113,7 +100,7 @@ bool solveBoard(int board[9][9]){
 				if(solveBoard(board)) {
 					return true;
 				} else {
-					board[eRow][eCol] = 0;
+					setEmptyCell(board, eRow, eCol);
 				}
 			}
 		}
@@ -121,13 +108,15 @@ bool solveBoard(int board[9][9]){
 	}
 }
 
-
 /*********************************************************************************
- * This method to check is the insert number vaild to the position
+ * This method checks if the value we wish to insert will be valid, we verify
+ * by looking in the row, column, and 3x3 box for a duplicate value.
  * @param: int[][], board, the 2D array board 
- * @param: int, row, the number of row
- * @param: int, col, the number of column
- * @param: int, value, the value the method going to check is there has a duplicate
+ * @param: int, row, the row to check
+ * @param: int, col, the column to check
+ * @param: int, value, the value we will look for duplicates of
+ * @returns: bool, true if the value passes all conditions, false if a duplicate
+ * value was found in one of the condition checks
  **********************************************************************************/
 bool isValidOption(int board[9][9], int row, int col, int value) {
 	return (checkRow(board, row, value) && checkColumn(board, col, value) && 
@@ -136,8 +125,10 @@ bool isValidOption(int board[9][9], int row, int col, int value) {
 
 
 /*********************************************************************************
- * The method to solve the game board by using the backtracking contect.
+ * Deterrmins if we are finished based on if the board contains an empty spot.
  * @param: int[][], board, the 2D array board 
+ * @returns: bool, true if there are no empty spots, false if there is at least one
+ * empty spot on the board
  **********************************************************************************/
 bool isFinished(int board[9][9]) {
 	for(int row = 0; row < 9; row++){
@@ -150,57 +141,78 @@ bool isFinished(int board[9][9]) {
 	return true;
 }
 
+/**********************************************************************
+ *Called when an invalid value is placed, sets specified spot on
+ * grid to 0
+ *********************************************************************/
+void setEmptyCell(int board[9][9], int row, int col) {
+	board[row][col] = 0;
+}
+
 /*********************************************************************************
- * The method to print out the game board.
+ * Prints out the sudoku board.
  * @param: int[][], board, the 2D array board 
  **********************************************************************************/
 void printBoard(int board[9][9]) {
-
-
 	for (int row = 0; row < 9; row++) {
 		for(int col = 0; col < 9; col++ ) {
 			std::cout << board[row][col] << "     ";
 		}
 		std::cout << std::endl;
 	}
-
-	
 	std::cout << std::endl;
 }
 
-
 /*********************************************************************************
- * This method to check is there has dupilicate number in the each 3x3 square
+ * This method calculates a 3x3 square to check for duplicate values.
  * @param: int[][], board, the 2D array board 
- * @param: int, row, the number of row
- * @param: int, col, the number of column
- * @param: int, value, the value the method going to check is there has a duplicate
+ * @param: int, row, the row to check
+ * @param: int, col, the column to check
+ * @param: int, value, the value to check for duplicates of
+ * @returns: bool, true if no duplicte value was found, false if a duplicate value
+ * was found
  **********************************************************************************/
 bool checkThreeBox(int board[9][9], int row, int col, int value) {
 
 	int minRow, maxRow;
 	int minCol, maxCol;
-
-	if(row == 0 || row == 1 || row == 2) {
+	
+	switch(row) {
+	   case 0:
+	   case 1:
+	   case 2:
 		minRow = 0;
 		maxRow = 2;
-	} else if (row == 3 || row == 4 || row == 5) {
+		break;
+	   case 3:
+	   case 4:
+	   case 5:
 		minRow = 3;
 		maxRow = 5;
-	} else {
-		minRow = 6;
+		break;
+	   default:
+		minRow = 6;	
 		maxRow = 8;
+		break;
 	}
 
-	if(col == 0 || col == 1 || col == 2) {
+	switch(col) {
+	   case 0:
+	   case 1:
+           case 2:
 		minCol = 0;
 		maxCol = 2;
-	} else if (col == 3 || col == 4 || col == 5) {
+	        break;
+	   case 3:
+	   case 4:
+	   case 5:
 		minCol = 3;
 		maxCol = 5;
-	} else {
-		minCol = 6;
+	   	break;
+	   default:
+		minCol = 6;	
 		maxCol = 8;
+		break;
 	}
 
 	for(int row = minRow; row <= maxRow; row++) {
